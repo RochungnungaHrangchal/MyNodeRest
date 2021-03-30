@@ -64,7 +64,7 @@ require('../routes/chengrang.route.js')(app);
 // kanRoute(app);*/
 // A chung a code nen hian a in ang chiah..  express hi ROUTE nan kan hmang dawn tihna.
 
-const port = process.env.port || 3066;
+const port = 3066;
 https.createServer(httpsoptions,app).listen(port,()=>{
     console.log("Server Started Successfully!")
 });

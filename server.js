@@ -30,9 +30,9 @@ app.use(helmet());
 
 
 mongoose.Promise = global.Promise;
-const connectionOptions={ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+
 // Connecting to the database
-mongoose.connect(dbConfig.url,connectionOptions)
+mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true})
 
 .then(() => {console.log("Successfully connected to the database");})
 .catch
@@ -63,6 +63,7 @@ require('../routes/chengrang.route.js')(app);
 // /*  var kanRoute = require('../routes/users.route.js')
 // kanRoute(app);*/
 // A chung a code nen hian a in ang chiah..  express hi ROUTE nan kan hmang dawn tihna.
+
 
 
 https.createServer(httpsoptions,app).listen(3066,()=>{

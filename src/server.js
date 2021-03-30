@@ -2,7 +2,7 @@ const express = require('express');
 const bodyparser=require('body-parser');
 const cors=require('cors');
 // Kan configurastion FILE ... 
-const dbConfig = require('./config/config.js');
+const dbConfig = require('../config/config.js');
 
 const mongoose = require('mongoose');
 

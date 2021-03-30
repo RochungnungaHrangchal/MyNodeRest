@@ -2,7 +2,7 @@ const express = require('express');
 const bodyparser=require('body-parser');
 const cors=require('cors');
 // Kan configurastion FILE ... 
-const dbConfig = require('../config/config.js');
+const dbConfig = require('./config/config.js');
 
 const mongoose = require('mongoose');
 
@@ -15,8 +15,8 @@ const helmet=require('helmet');
 const { Console } = require('console');
 
 const httpsoptions = {
-    key: filesystem.readFileSync("../config/key.pem"),
-    cert: filesystem.readFileSync("../config/cert.pem"),
+    key: filesystem.readFileSync("./config/key.pem"),
+    cert: filesystem.readFileSync("./config/cert.pem"),
     passphrase:dbConfig.hrangchalsolutions
   };
   

@@ -1,4 +1,4 @@
-const Chengrang = require('../models/chengrang.model.js');
+const Chengrang = require('./models/chengrang.model.js');
 
 exports.Athar=(req,res)=>{
 

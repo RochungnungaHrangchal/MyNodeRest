@@ -46,7 +46,7 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true
 
 app.get("/",(req,res)=>{
 
-    res.json({"Msg":"This is new Message"});
+    res.json({"Msg":"Online Change Effects!"});
 });
 
 /*app.listen(3066,()=>{

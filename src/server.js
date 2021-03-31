@@ -15,8 +15,8 @@ const helmet=require('helmet');
 const { Console } = require('console');
 
 const httpsoptions = {
-    key: filesystem.readFileSync("./config/key.pem"),
-    cert: filesystem.readFileSync("./config/cert.pem"),
+    key: filesystem.readFileSync("../config/key.pem"),
+    cert: filesystem.readFileSync("../config/cert.pem"),
     passphrase:dbConfig.hrangchalsolutions
   };
   

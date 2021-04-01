@@ -2,7 +2,7 @@ const Chengrang = require('../models/chengrang.model.js');
 
 exports.Athar=(req,res)=>{
 
-
+    // res.send(req.body.holdername);
     if(!req.body.holdername){
         return res.status(400).send({
            message:'Silai a ruak thei lo' 

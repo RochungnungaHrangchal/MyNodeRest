@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser=require('body-parser');
 const cors=require('cors');
+var path = require("path");
 // Kan configurastion FILE ... 
 const dbConfig = require('./config/config.js');
 
@@ -27,7 +28,9 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 app.use(bodyparser.json());
 app.use(helmet());
-
+//app.use(app.router);
+//app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname,'./public')));
 
 mongoose.Promise = global.Promise;
 
@@ -45,9 +48,15 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true
     );
 
 app.get("/",(req,res)=>{
+  res.sendFile(path.join(__dirname,'./public/index.html'));
 
-    res.json({"Msg":"Online Change Effects!"});
+//res.sendFile('index.html');
+//res.sendFile('index.html', { root:'./public' });
+
+   // res.json({"Msg":"Online Change Effects!"});
 });
+
+
 
 /*app.listen(3066,()=>{
 

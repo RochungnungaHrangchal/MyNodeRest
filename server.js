@@ -74,9 +74,9 @@ require('./routes/chengrang.route.js')(app);
 // A chung a code nen hian a in ang chiah..  express hi ROUTE nan kan hmang dawn tihna.
 
 
-const port = process.environment.PORT || 3066;
+//const port = process.environment.port || 3066;
 
-app.listen(port,()=>{
+app.listen(3066,()=>{
   console.log("Server Connected");
 });
 

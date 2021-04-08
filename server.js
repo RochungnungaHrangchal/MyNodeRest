@@ -2,8 +2,12 @@ const express = require('express');
 const bodyparser=require('body-parser');
 const cors=require('cors');
 var path = require("path");
+const cookieParser=require('cookie-parser');
 // Kan configurastion FILE ... 
+
 const dbConfig = require('./config/config.js');
+
+//const authroute = require('./routes/auth.route.js');
 
 const mongoose = require('mongoose');
 
@@ -27,6 +31,8 @@ const app = express();
 app.use(bodyparser.urlencoded({extended:true}));
 
 app.use(bodyparser.json());
+//app.use(cors);
+app.use(cookieParser());
 app.use(helmet());
 //app.use(app.router);
 //app.use(express.static(__dirname + '/public'));
@@ -57,6 +63,7 @@ app.get("/",(req,res)=>{
 });
 
 
+//app.use("/api",authroute)
 
 /*app.listen(3066,()=>{
 

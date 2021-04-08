@@ -1,30 +1,114 @@
 const User = require('../models/users.model.js');
+const bcrypt=require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config.js');
+const refreshTokens = [];
+// Create, REgister  and Save a new User
+exports.Ziahluhna = async (req, res)=>{
 
-// Create and Save a new Note
-exports.create = (req, res)=>{
-    if(!req.body.content) {
+    const salt = await bcrypt.genSalt(10);
+    const hasPassword = await bcrypt.hash(req.body.password, salt);
+   
+      // res.send(req.body.email);
+   /* if(!req.body.email) {
         return res.status(400).send({
             message: "User || Content can not be empty"
         });
-    }
+    }*/
 
     // Create a Node user
     const user = new User({
-        title: req.body.title || "NO User ", 
-        content: req.body.content
+        email: req.body.email,
+        name: req.body.name,
+        password: hasPassword,
+        user_type_id: req.body.user_type_id
+       // title: req.body.title || "NO User ", 
+       // content: req.body.content
     });
 
     // Save Node/USer in the database
 
     user.save()
     .then(data => {
-        res.send(data);
+        let payload = { id: req.body.email, user_type_id: req.body.user_type_id || 0 };
+            const token = jwt.sign(payload,"danifilth");// Serret hi auto generate ta ila !!?
+            res.status(200).send({ token })
+            //res.send(data);
     }).catch(err => {
-        res.status(500).send({
+         res.status(500).send({
             message: err.message || "Some error occurred while creating the Note."
         });
     });
 };
+
+
+/*exports.RefreshToken = async(req,res)=>
+{
+    const token=req.body;
+    if (!token) {
+        return res.sendStatus(401);
+    }
+
+    if (!refreshTokens.includes(token)) {
+        return res.sendStatus(403);
+    }
+   
+    jwt.verify(token, config.RefreshToken, (err, user) => {
+        if (err) {
+            return res.sendStatus(403);
+        }
+
+        let payload = { id: user._id, user_type_id: user.user_type_id };
+        const token = jwt.sign(payload, config.TOKEN_SECRET,{expiresIn:'20m'});
+
+        res.json({
+            token
+        });
+    });
+
+};
+*/
+
+exports.login = async (req, res,next) => {
+
+     User.findOne({ email: req.body.email }, async (err, user) => {
+        if (err) {
+            console.log(err)
+        } else {
+            if (user) {
+                const validPass = await bcrypt.compare(req.body.password, user.password);
+                if (!validPass) return res.status(401).send("Password is wrong !");
+
+                // Create and assign token
+                let payload = { id: user._id, user_type_id: user.user_type_id };
+                const token = jwt.sign(payload, config.TOKEN_SECRET);//),{expiresIn:'20m'});
+                //const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN);
+               // refreshTokens.push(refreshToken);
+
+                res.cookie('token',token,{maxAge: 60 * 60000,secure:false,httpOnly:true});
+                
+               // next();
+                res.redirect('auth');
+
+               // res.status(200).header("auth-token", token).send({ "token": token });
+                // Kookie-ah store ang!
+                //res.redirect('auth');
+                
+                /* res.cookie('token', token, {
+                   // expires: new Date(Date.now() + expiration),
+                    secure: false, // set to true if your using https
+                    httpOnly: true,
+                  });*/
+            }
+            else {
+                res.status(401).send('Invalid Email!');
+            }
+
+        }
+    })
+};
+
+
 
 // Retrieve and return all notes from the database.
 exports.findAll = (req, res) => {
@@ -116,4 +200,13 @@ exports.delete = (req, res) => {
             message: "Could not delete note with id " + req.params.userId
         });
     });
+};
+
+exports.authuseronly = (req, res) => {
+    res.send("Hey,You are authenticated user. So you are authorized to access here.");
+};
+
+// Admin users only
+exports.adminonly = (req, res) => {
+    res.send("Success. Hellow Admin, this route is only for you");
 };

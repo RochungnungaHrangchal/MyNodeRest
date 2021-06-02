@@ -1,6 +1,7 @@
 const User = require('../models/users.model.js');
 const bcrypt=require('bcryptjs');
 const jwt = require('jsonwebtoken');
+var path = require("path");
 const config = require('../config/config.js');
 const refreshTokens = [];
 // Create, REgister  and Save a new User
@@ -85,7 +86,7 @@ exports.login = async (req, res,next) => {
                 //const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN);
                // refreshTokens.push(refreshToken);
 
-                res.cookie('token',token,{maxAge: 60 * 60000,secure:false,httpOnly:true});
+                res.cookie('token',token,{maxAge: 60 * 60000,secure:true,httpOnly:true});
                 
                // next();
                 res.redirect('auth');
@@ -203,7 +204,9 @@ exports.delete = (req, res) => {
 };
 
 exports.authuseronly = (req, res) => {
-    res.send("Hey,You are authenticated user. So you are authorized to access here.");
+   // res.sendFile(path.join(__dirname,'./public/ind.html'));
+    res.sendFile('ind.html',{ root: './public' });
+   // res.send("Hey,You are authenticated user. So you are authorized to access here.");
 };
 
 // Admin users only

@@ -1,6 +1,14 @@
 <!doctype HTML>
 <html>
     <head>
+    <meta http-equiv="Content-Security-Policy"
+        content="
+        default-src *
+        style-src * 'unsafe-inline'
+        script-src *
+        img-src * data:
+        'unsafe-eval'
+        " />
  <script src="assets/js/aframe.js"></script>
 <script src="assets/js/aframear.js"></script>
 </head>
